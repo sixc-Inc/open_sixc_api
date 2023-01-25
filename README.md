@@ -1,11 +1,14 @@
 # sixc API
 
 ### User Flow
-- Go to our [homepage](sixc.io) and click `Join The Waitlist` to make an account. Remember your username and password.
-- Clone `sixc-Inc/open_sixc_api` on Github - linked (here)[].
-- Spin up a project folder. Create an `.env` file that follows the `.env.template` template.
-- Copy `connecting_with_python.py` into your project folder. 
-- Run `pip install sixc_api/examples/requirements.txt`.
+- Clone this repository.
+- Create an `.env` file that follows the `.env.template` template. 
+- Go to our [homepage](sixc.io) and click `Join The Waitlist` to make an account. Add your username and password to your `.env` file.
+- Create a virtual environment: `python3 -m venv sixc_api_venv`
+- Activate your virtual environment: `source sixc_api_venv/bin/activate`
+- Run `pip3 install -r requirements.txt`.
+- Read through the API docs below to see which endpoints you'd like to hit! Modify the variables in the `__main__()` function in `connecting_with_python.py` to configure your connection.
+- Run `python3 connecting_with_python.py` when you're ready to hit the API!
 
 
 Base URL: `https://api.sixc.io`
