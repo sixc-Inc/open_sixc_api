@@ -1,15 +1,16 @@
 import os, json, dotenv, requests, boto3
+from botocore.config import Config
 
 
 ### DO NOT MODIFY ###
 def get_token_via_username_password_w_boto3(
+    boto3_client,
     env_fp,
     key_prefix = ""
 ):
     dotenv_file = dotenv.find_dotenv(env_fp)
     config = dotenv.dotenv_values(env_fp)
-    client = boto3.client('cognito-idp')
-    response = client.initiate_auth(
+    response = boto3_client.initiate_auth(
         AuthFlow='USER_PASSWORD_AUTH',
         AuthParameters={
             "USERNAME" : config[key_prefix+"COGNITO_USERNAME"],
@@ -22,13 +23,13 @@ def get_token_via_username_password_w_boto3(
     return response["AuthenticationResult"]["IdToken"]
 
 def get_token_via_refresh_w_boto3(
+    boto3_client,
     env_fp,
     key_prefix = ""
 ):
     dotenv_file = dotenv.find_dotenv(env_fp)
     config = dotenv.dotenv_values(env_fp)
-    client = boto3.client('cognito-idp')
-    response = client.initiate_auth(
+    response = boto3_client.initiate_auth(
         AuthFlow='REFRESH_TOKEN_AUTH',
         AuthParameters={
             "REFRESH_TOKEN" : config[key_prefix+"API_REFRESH_TOKEN"]
@@ -36,7 +37,6 @@ def get_token_via_refresh_w_boto3(
         ClientId=config[key_prefix+"COGNITO_CLIENT_ID"],
     )
     dotenv.set_key(dotenv_file, key_prefix+"API_ID_TOKEN", response["AuthenticationResult"]["IdToken"])
-    dotenv.set_key(dotenv_file, key_prefix+"API_REFRESH_TOKEN", response["AuthenticationResult"]["RefreshToken"])
     return response["AuthenticationResult"]["IdToken"]
 
 def get_token_via_username_password(
@@ -144,13 +144,21 @@ if __name__ == '__main__':
     event = {}
     
     config = dotenv.dotenv_values(env_fp)
+    
+    my_config = Config(
+        region_name = 'us-east-1'
+    )
+
+    client = boto3.client('cognito-idp', config=my_config)
     try:
         id_token = get_token_via_refresh_w_boto3(
+            boto3_client=client,
             env_fp=env_fp,
             key_prefix=key_prefix
         )
     except Exception:
         id_token = get_token_via_username_password_w_boto3(
+            boto3_client=client,
             env_fp=env_fp,
             key_prefix=key_prefix
         )
@@ -161,8 +169,7 @@ if __name__ == '__main__':
         event
     )
     
-    print(response)
-    jsoned = json.loads(response.json())
-    print(jsoned['statusCode'])
-    
-    
+    if response.status_code == 401 or response.status_code == 500:
+        print(response.json())
+    else:
+        print(response.json())
