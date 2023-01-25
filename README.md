@@ -14,7 +14,6 @@
 Base URL: `https://api.sixc.io`
 
 ### Resource: `/user`
-
 #### Method: `get`
 
 Description:
@@ -36,7 +35,7 @@ Successful Return Data Format:
 }
 
 ```
-
+### Resource: `/user`
 #### Method: `patch`
 
 Description:
@@ -81,7 +80,7 @@ Successful Return Data Format:
     'transaction_id': TRANSACTION_ID
 }
 ```
-
+### Resource: `/buy`
 #### Method: `get`
 
 Description:
@@ -102,6 +101,7 @@ Successful Return Data Format:
 }
 ```
 
+### Resource: `/buy`
 #### Method: `patch`
 
 Description:
@@ -124,6 +124,7 @@ Successful Return Data Format:
 }
 ```
 
+### Resource: `/buy`
 #### Method: `delete`
 Description:
 Delete a "buy order". Pre-requisite: "buy order" must be in the `CANCELLED` state.
