@@ -85,11 +85,11 @@ def get_token_via_username_password(
 ### DO NOT MODIFY ###
 
 def ping_api(
-    token: str,
-    resource: str,
-    request_type: str, 
-    event: dict[str]
-) -> dict[str]:
+    token,
+    resource,
+    request_type, 
+    event
+):
     # Resources: ['buy', 'buy/place', 'buy/cancel']
     # The `buy` resource enables request types of 'put' (draft order), 'patch' (update order), 'get' (list orders), and 'delete' (delete cancelled orders)
     # The `buy/place` resource enables 'post' request types
