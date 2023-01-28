@@ -94,8 +94,7 @@ def ping_api(
     # The `buy` resource enables request types of 'put' (draft order), 'patch' (update order), 'get' (list orders), and 'delete' (delete cancelled orders)
     # The `buy/place` resource enables 'post' request types
     # The `buy/cancel` resource enables 'post' request types
-    # See `sixc_api/lambdas` for required `event` details
-    # See further documentation in `sixc_api/README.md`
+    # Further documention in README.md
     base_url = "https://api.sixc.io/"
     url_to_request = base_url + resource
     header = {
