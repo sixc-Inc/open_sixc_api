@@ -3,7 +3,7 @@
 ### User Flow
 - Clone this repository.
 - Create an `.env` file that follows the `.env.template` template. 
-- Go to our [homepage](sixc.io) and click `Join The Waitlist` to make an account. Add your username and password to your `.env` file.
+- Go to our [homepage](sixc.io) and click `Join The Waitlist` to make an account. Add your username and password to your `.env` file. If this fails, email `ben@sixc.io`. You need to be added to the SES sandbox ahead of time.
 - Create a virtual environment: `python3 -m venv sixc_api_venv`
 - Activate your virtual environment: `source sixc_api_venv/bin/activate`
 - Run `pip3 install -r requirements.txt`.
