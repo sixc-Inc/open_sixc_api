@@ -125,7 +125,7 @@ def ping_api(
             json=event
         )
     elif request_type.lower() == 'post':
-        response = requests.patch(
+        response = requests.post(
             url_to_request,
             headers=header,
             json=event
