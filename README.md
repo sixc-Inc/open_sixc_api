@@ -9,7 +9,7 @@
 - Create a virtual environment: `python3 -m venv sixc_api_venv`
 - Activate your virtual environment: `source sixc_api_venv/bin/activate`
 - Run `pip3 install -r requirements.txt`.
-- Read through the API docs below to see which endpoints you'd like to hit! Modify the variables in the `__main__()` function in `connecting_with_python.py` to configure your connection.
+- Read through the API docs below to see which endpoints you'd like to hit! Modify `resource_to_hit`, `request_to_hit` and `event` in  `connecting_with_python.py`'s `__main__()` function in  to configure your connection.
 - Run `python3 connecting_with_python.py` when you're ready to hit the API!
 
 

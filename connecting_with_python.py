@@ -135,12 +135,16 @@ def ping_api(
     return response
     
 if __name__ == '__main__':
+    ### DO NOT MODIFY ###
     env_fp = ".env"
-    resource_to_hit = "buy"
-    request_to_hit = "put"
-    token_key = "API_ID_TOKEN"
     key_prefix = ""
-    event = {}
+    token_key = "API_ID_TOKEN"
+    ### DO NOT MODIFY ###
+    
+    # Variables To Modify
+    resource_to_hit = "buy" # endpoint to target
+    request_to_hit = "put" # request type
+    event = {} # data to pass in request
     
     config = dotenv.dotenv_values(env_fp)
     
