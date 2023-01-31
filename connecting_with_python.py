@@ -142,8 +142,8 @@ if __name__ == '__main__':
     ### DO NOT MODIFY ###
     
     # Variables To Modify
-    resource_to_hit = "buy" # endpoint to target
-    request_to_hit = "put" # request type
+    resource_to_hit = "user" # endpoint to target
+    request_to_hit = "get" # request type
     event = {} # data to pass in request
     
     config = dotenv.dotenv_values(env_fp)

@@ -3,7 +3,7 @@
 ### User Flow
 - Clone this repository.
 - Create an `.env` file that follows the `.env.template` template. 
-- Go to our [homepage](sixc.io) and click `Join The Waitlist` to request an account. You should receive an Amazon SES email that you need to approve before signing up. Email `ben@sixc.io` as soon as you submit for faster approval. This needs to happen before you can sign up.
+- Go to our [homepage](https://www.sixc.io) and click `Join The Waitlist` to request an account. You should receive an Amazon SES email that you need to approve before signing up. Email `ben@sixc.io` as soon as you submit for faster approval. This needs to happen before you can sign up.
 - Sign up via AWS Cognito [here](https://auth.sixc.io/signup?response_type=code&client_id=2ubic58v1u3rbn43b8vdhicvrm&redirect_uri=https://sixc.io). Remember your username and password.
 - Add your username and password to your `.env` file. You do not need to add anything `API_ID_TOKEN` or `API_REFRESH_TOKEN`. Leave the `COGNITO_CLIENT_ID` alone - modifying it will break things.
 - Create a virtual environment: `python3 -m venv sixc_api_venv`
