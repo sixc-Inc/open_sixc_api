@@ -4,8 +4,8 @@
 - Clone this repository.
 - Create an `.env` file that follows the `.env.template` template. 
 - Go to our [homepage](https://www.sixc.io) and click `Join The Waitlist` to request an account. You should receive an Amazon SES email that you need to approve before signing up. Email `ben@sixc.io` as soon as you submit for faster approval. This needs to happen before you can sign up.
-- Sign up via AWS Cognito [here](https://auth.sixc.io/signup?response_type=code&client_id=2ubic58v1u3rbn43b8vdhicvrm&redirect_uri=https://sixc.io). Remember your username and password.
-- Add your username and password to your `.env` file. You do not need to add anything `API_ID_TOKEN` or `API_REFRESH_TOKEN`. Leave the `COGNITO_CLIENT_ID` alone - modifying it will break things.
+- Sign up via AWS Cognito [here](https://auth.sixc.io/signup?response_type=code&client_id=2ubic58v1u3rbn43b8vdhicvrm&redirect_uri=https://sixc.io). Remember your username and password as you will have to enter them to authenticate & generate a refresh token.
+- You do not need to add anything `API_ID_TOKEN` or `API_REFRESH_TOKEN`. Leave the `COGNITO_CLIENT_ID` alone - modifying it will break things.
 - Create a virtual environment: `python3 -m venv sixc_api_venv`
 - Activate your virtual environment: `source sixc_api_venv/bin/activate`
 - Run `pip3 install -r requirements.txt`.
@@ -14,6 +14,32 @@
 
 
 Base URL: `https://api.sixc.io`
+
+### Resource: `/login`
+#### Method: `post`
+
+Description:
+Obtain ID, Access, and Refresh Tokens via username/password login.
+
+Input Data Format:
+```
+{
+    'username': SIXC_USERNAME (str)
+    'password': SIXC_PASSWORD (str)
+}
+```
+Successful Return Data Format:
+```
+{
+    'statusCode': 200,
+    'body': {
+        'AccessToken': COGNITO_ACCESS_TOKEN (str)
+        'IdToken': COGNITO_ID_TOKEN (str)
+        'AccessToken': COGNITO_REFRESH_TOKEN (str)
+    }
+}
+```
+
 
 ### Resource: `/user`
 #### Method: `get`
@@ -35,7 +61,6 @@ Successful Return Data Format:
         'emissions': EMISSISONS (float)
     }
 }
-
 ```
 ### Resource: `/user`
 #### Method: `patch`

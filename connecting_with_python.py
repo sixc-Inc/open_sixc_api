@@ -1,5 +1,30 @@
-import os, json, dotenv, requests, boto3
+import os, json, dotenv, requests, boto3, getpass
 from botocore.config import Config
+
+
+def get_token_via_username_pwd(
+    username, 
+    password,
+    env_fp,
+    key_prefix = ""
+):
+    URL_TO_HIT = "https://api.sixc.io/login"
+    
+    data = {
+        'username': username,
+        'password': password
+    }
+    dumped_response = requests.post(
+        URL_TO_HIT,
+        json=data
+    )
+    response = json.loads(dumped_response.json())
+    
+    dotenv_file = dotenv.find_dotenv(env_fp)
+    dotenv.set_key(dotenv_file, key_prefix+"API_ID_TOKEN", response["body"]["IdToken"])
+    dotenv.set_key(dotenv_file, key_prefix+"API_REFRESH_TOKEN", response["body"]["RefreshToken"])
+    return response["body"]["IdToken"]
+
 
 
 ### DO NOT MODIFY ###
@@ -133,20 +158,17 @@ def ping_api(
     else:
         raise Exception("Invalid Request Type")
     return response
-    
-if __name__ == '__main__':
-    ### DO NOT MODIFY ###
+
+def pipeline_to_follow():
+     ### DO NOT MODIFY ###
     env_fp = ".env"
     key_prefix = ""
-    token_key = "API_ID_TOKEN"
     ### DO NOT MODIFY ###
     
     # Variables To Modify
     resource_to_hit = "user" # endpoint to target
     request_to_hit = "get" # request type
     event = {} # data to pass in request
-    
-    config = dotenv.dotenv_values(env_fp)
     
     my_config = Config(
         region_name = 'us-east-1'
@@ -160,10 +182,15 @@ if __name__ == '__main__':
             key_prefix=key_prefix
         )
     except Exception:
-        id_token = get_token_via_username_password_w_boto3(
-            boto3_client=client,
+        print("Please enter your sixc.io login information below.")
+        print("If you've forgotten your login, head to https://auth.sixc.io/forgotPassword?response_type=code&client_id=2ubic58v1u3rbn43b8vdhicvrm&redirect_uri=https://sixc.io")
+        uname = input("Enter username: ")
+        pwd = getpass.getpass("Enter password (obscured input): ")
+        id_token = get_token_via_username_pwd(
+            username=uname,
+            password=pwd,
             env_fp=env_fp,
-            key_prefix=key_prefix
+            key_prefix = key_prefix
         )
     response = ping_api(
         id_token,
@@ -176,3 +203,6 @@ if __name__ == '__main__':
         print(response.json())
     else:
         print(response.json())
+    
+if __name__ == '__main__':
+   pipeline_to_follow()
