@@ -25,46 +25,27 @@ def get_token_via_username_pwd(
     dotenv.set_key(dotenv_file, key_prefix+"API_REFRESH_TOKEN", response["body"]["RefreshToken"])
     return response["body"]["IdToken"]
 
-
-
-### DO NOT MODIFY ###
-def get_token_via_username_password_w_boto3(
-    boto3_client,
+def get_token_via_refresh(
+    refresh_token, 
     env_fp,
     key_prefix = ""
 ):
-    dotenv_file = dotenv.find_dotenv(env_fp)
-    config = dotenv.dotenv_values(env_fp)
-    response = boto3_client.initiate_auth(
-        AuthFlow='USER_PASSWORD_AUTH',
-        AuthParameters={
-            "USERNAME" : config[key_prefix+"COGNITO_USERNAME"],
-            "PASSWORD" : config[key_prefix+"COGNITO_PASSWORD"]
-        },
-        ClientId=config[key_prefix+"COGNITO_CLIENT_ID"],
+    URL_TO_HIT = "https://api.sixc.io/login/refresh"
+    
+    data = {
+        'refresh_token': refresh_token
+    }
+    dumped_response = requests.post(
+        URL_TO_HIT,
+        json=data
     )
-    dotenv.set_key(dotenv_file, key_prefix+"API_ID_TOKEN", response["AuthenticationResult"]["IdToken"])
-    dotenv.set_key(dotenv_file, key_prefix+"API_REFRESH_TOKEN", response["AuthenticationResult"]["RefreshToken"])
-    return response["AuthenticationResult"]["IdToken"]
-
-def get_token_via_refresh_w_boto3(
-    boto3_client,
-    env_fp,
-    key_prefix = ""
-):
+    response = json.loads(dumped_response.json())
+    
     dotenv_file = dotenv.find_dotenv(env_fp)
-    config = dotenv.dotenv_values(env_fp)
-    response = boto3_client.initiate_auth(
-        AuthFlow='REFRESH_TOKEN_AUTH',
-        AuthParameters={
-            "REFRESH_TOKEN" : config[key_prefix+"API_REFRESH_TOKEN"]
-        },
-        ClientId=config[key_prefix+"COGNITO_CLIENT_ID"],
-    )
-    dotenv.set_key(dotenv_file, key_prefix+"API_ID_TOKEN", response["AuthenticationResult"]["IdToken"])
-    return response["AuthenticationResult"]["IdToken"]
+    dotenv.set_key(dotenv_file, key_prefix+"API_ID_TOKEN", response["body"]["IdToken"])
+    return response["body"]["IdToken"]
 
-def get_token_via_username_password(
+def get_token_via_username_password_curl(
     env_fp,
     key_prefix = ""
 ):
@@ -169,15 +150,11 @@ def pipeline_to_follow():
     resource_to_hit = "user" # endpoint to target
     request_to_hit = "get" # request type
     event = {} # data to pass in request
-    
-    my_config = Config(
-        region_name = 'us-east-1'
-    )
 
-    client = boto3.client('cognito-idp', config=my_config)
     try:
-        id_token = get_token_via_refresh_w_boto3(
-            boto3_client=client,
+        config = dotenv.dotenv_values(env_fp)
+        id_token = get_token_via_refresh(
+            refresh_token=config['API_REFRESH_TOKEN'],
             env_fp=env_fp,
             key_prefix=key_prefix
         )
