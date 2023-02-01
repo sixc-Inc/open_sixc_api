@@ -18,7 +18,7 @@ Base URL: `https://api.sixc.io`
 #### Method: `post`
 
 Description:
-Obtain ID, Access, and Refresh Tokens via username/password login.
+Obtain ID, Access, and Refresh Tokens via username/password login. Refresh tokens last one month. ID tokens last one hour.
 
 Input Data Format:
 ```
@@ -35,6 +35,29 @@ Successful Return Data Format:
         'AccessToken': COGNITO_ACCESS_TOKEN (str)
         'IdToken': COGNITO_ID_TOKEN (str)
         'AccessToken': COGNITO_REFRESH_TOKEN (str)
+    }
+}
+```
+
+### Resource: `/login/refresh`
+#### Method: `post`
+
+Description:
+Obtain ID and Access Tokens via refresh token. Refresh tokens last one month. ID tokens last one hour.
+
+Input Data Format:
+```
+{
+    'refresh_token': COGNITO_REFRESH_TOKEN (str)
+}
+```
+Successful Return Data Format:
+```
+{
+    'statusCode': 200,
+    'body': {
+        'AccessToken': COGNITO_ACCESS_TOKEN (str)
+        'IdToken': COGNITO_ID_TOKEN (str)
     }
 }
 ```
